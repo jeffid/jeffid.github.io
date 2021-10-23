@@ -1,0 +1,7 @@
+# dir
+.idea/
+build/
+
+
+# file
+.DS_Store
