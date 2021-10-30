@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>所有文章 - 酷库空间</title>
+        <title>所有文章 - 万酷库</title>
         <link>https://waacoo.cc/posts/</link>
-        <description>所有文章 | 酷库空间</description>
+        <description>所有文章 | 万酷库</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 10 Jun 2020 14:00:00 &#43;0800</lastBuildDate><atom:link href="https://waacoo.cc/posts/" rel="self" type="application/rss+xml" /><item>
     <title>Elasticsearch中文同义词</title>
     <link>https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/</link>

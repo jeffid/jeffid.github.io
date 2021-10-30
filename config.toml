@@ -11,7 +11,7 @@ theme = "LoveIt"
 
 # website title
 # 网站标题
-title = "酷库空间"
+title = "万酷库"
 
 # whether to use robots.txt
 # 是否使用 robots.txt
@@ -345,7 +345,7 @@ enableEmoji = true
           # 主页显示的网站标题 (支持 HTML 格式)
           title = ""
           # 主页显示的网站副标题
-          subtitle = "一个简洁、优雅且高效的 Hugo 主题"
+          subtitle = "为创想赋能;"
           # 是否为副标题显示打字机动画
           typeit = true
           # 是否显示社交账号
@@ -657,7 +657,7 @@ enableEmoji = true
       logo = ""
       # title name
       # 标题名称
-      name = "酷库空间"
+      name = "万酷库"
       # you can add extra information before the name (HTML format is supported), such as icons
       # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标
       #pre = "<i class='far fa-kiss-wink-heart fa-fw'></i>"
