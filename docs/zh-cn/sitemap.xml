@@ -2,7 +2,7 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://waacoo.cc/categories/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://waacoo.cc/categories/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://waacoo.cc/en/categories/"
@@ -11,7 +11,11 @@
                     hreflang="zh-cn"
                     href="https://waacoo.cc/categories/"
                     /></url><url>
-            <loc>https://waacoo.cc/series/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://waacoo.cc/tags/elasticsearch/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/series/elk/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/posts/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/series/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://waacoo.cc/en/series/"
@@ -20,7 +24,7 @@
                     hreflang="zh-cn"
                     href="https://waacoo.cc/series/"
                     /></url><url>
-            <loc>https://waacoo.cc/tags/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://waacoo.cc/tags/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://waacoo.cc/en/tags/"
@@ -29,7 +33,8 @@
                     hreflang="zh-cn"
                     href="https://waacoo.cc/tags/"
                     /></url><url>
-            <loc>https://waacoo.cc/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://waacoo.cc/categories/%E5%90%8E%E7%AB%AF/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://waacoo.cc/en/"
@@ -37,4 +42,8 @@
                     rel="alternate"
                     hreflang="zh-cn"
                     href="https://waacoo.cc/"
-                    /></url></urlset>
+                    /></url><url>
+            <loc>https://waacoo.cc/tags/php/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/105_es_goods_search/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/104_es_base/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://waacoo.cc/tags/kibana/</loc><lastmod>2022-10-06T08:52:19&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url></urlset>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Kibana - 标签 - 万酷库</title>
+        <link>https://waacoo.cc/tags/kibana/</link>
+        <description>Kibana - 标签 - 万酷库</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 02 Apr 2020 18:11:20 &#43;0800</lastBuildDate><atom:link href="https://waacoo.cc/tags/kibana/" rel="self" type="application/rss+xml" /><item>
+    <title>Elasticsearch DSL的PHP写法示例</title>
+    <link>https://waacoo.cc/104_es_base/</link>
+    <pubDate>Thu, 02 Apr 2020 18:11:20 &#43;0800</pubDate>
+    <author>Jeffid</author>
+    <guid>https://waacoo.cc/104_es_base/</guid>
+    <description><![CDATA[操作环境 下面的程序和运行环境都是使用Laradock部署的 Elasticsearch 7.6.1 Kibana 7.6.1 PHP 7.2 elasticsearch/elasticsearch ~7.6.0 示例 导入数据 所有的DSL语句都在Kibana的Dev Tools工具]]></description>
+</item>
+</channel>
+</rss>
