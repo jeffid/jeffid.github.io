@@ -1,0 +1,690 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>GEN 自动生成 GORM 模型结构体文件及使用示例 - 万酷库</title><meta name=Description content="关于 LoveIt 主题"><meta property="og:title" content="GEN 自动生成 GORM 模型结构体文件及使用示例"><meta property="og:description" content="背景 GEN 是一个基于 GORM 的安全 ORM 框架, 由字节跳动无恒实验室与 GORM 作者联合研发，主要功能说白了就是帮助生成数据表对应的模型文件和更安全方便地执行SQL"><meta property="og:type" content="article"><meta property="og:url" content="https://waacoo.cc/111_gorm-gen/"><meta property="og:image" content="https://waacoo.cc/img/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-09-16T21:12:00+08:00"><meta property="article:modified_time" content="2022-10-06T11:00:53+08:00"><meta property="og:site_name" content="My cool site"><meta property="og:see_also" content="https://waacoo.cc/112_glang-singleton/"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://waacoo.cc/img/logo.jpg"><meta name=twitter:title content="GEN 自动生成 GORM 模型结构体文件及使用示例"><meta name=twitter:description content="背景 GEN 是一个基于 GORM 的安全 ORM 框架, 由字节跳动无恒实验室与 GORM 作者联合研发，主要功能说白了就是帮助生成数据表对应的模型文件和更安全方便地执行SQL"><meta name=application-name content="LoveIt"><meta name=apple-mobile-web-app-title content="LoveIt"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://waacoo.cc/111_gorm-gen/><link rel=prev href=https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/><link rel=next href=https://waacoo.cc/112_glang-singleton/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"GEN 自动生成 GORM 模型结构体文件及使用示例","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/waacoo.cc\/111_gorm-gen\/"},"image":["https:\/\/waacoo.cc\/img\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Golang, GORM, GEN","wordcount":5290,"url":"https:\/\/waacoo.cc\/111_gorm-gen\/","datePublished":"2022-09-16T21:12:00+08:00","dateModified":"2022-10-06T11:00:53+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Jeffid","logo":"https:\/\/waacoo.cc\/img\/avatar.jpg"},"author":{"@type":"Person","name":"Jeffid"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=万酷库>万酷库</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/jeffid title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/111_gorm-gen/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=万酷库>万酷库</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/jeffid title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/111_gorm-gen/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">GEN 自动生成 GORM 模型结构体文件及使用示例</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Jeffid</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/%E5%90%8E%E7%AB%AF/><i class="far fa-folder fa-fw" aria-hidden=true></i>后端</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022-09-16>2022-09-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 5290 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 11 分钟&nbsp;<span id=/111_gorm-gen/ class=leancloud_visitors data-flag-title="GEN 自动生成 GORM 模型结构体文件及使用示例">
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#背景>背景</a></li><li><a href=#本文目标>本文目标</a></li><li><a href=#配置-gen-并生成模型结构体>配置 GEN 并生成模型结构体</a></li><li><a href=#使用-gen-进行数据库操作>使用 GEN 进行数据库操作</a></li><li><a href=#结语>结语</a></li><li><a href=#参考>参考</a></li></ul></nav></div></div><div class=content id=content><h2 id=背景>背景</h2><p>GEN 是一个基于 GORM 的安全 ORM 框架, 由字节跳动无恒实验室与 GORM 作者联合研发，主要功能说白了就是帮助生成数据表对应的模型文件和更安全方便地执行SQL。</p><blockquote><p>直接使用 GORM 与 GEN 工具的对比：</p><table><thead><tr><th>直接使用GORM</th><th>使用GEN</th></tr></thead><tbody><tr><td>需手动创建与数据表各列一一对应的结构体</td><td>指定表名后自动读取并生成对应结构体</td></tr><tr><td>需手动实现具体的 go 代码查询逻辑</td><td>描述 SQL 查询逻辑即可，工具自动转换成安全稳定的代码</td></tr><tr><td>查询接口十分灵活，但不能保持查询的 SQL 不发生语法错误，<br>只能通过测试保证部分场景的正常运行</td><td>查询接口使用类型安全，编译可通过，查询逻辑即是正常合理的</td></tr><tr><td>需人工评经验保证业务不存在安全问题，<br>一旦出错往往在上线前才能发现，影响上线流程</td><td>提供的安全可靠的查询 API，开发时能用的就是安全的</td></tr></tbody></table></blockquote><h2 id=本文目标>本文目标</h2><p>GEN 提供的功能是强大而丰富的，本文相当一个上手指引只挑些常见操作进行示例说明：</p><ul><li>表字段的整型类型无论大小和有无符号，结构体中统一使用 int64 （为了简化后续使用时的操作）。</li><li>个别结构体字段 json 序列化时由数字类型转成字符串类型，如：余额字段 <code>balance</code> 在表中是 DECIMAL 类型，结构体中是 int64，业务需要的 json 字段类型为字符串。</li><li>使用非默认字段名实现自动更新、创建时间戳和软删除。</li><li>模型关联</li></ul><p>示例环境：</p><ul><li>go 1.18</li><li>gen v0.3.16 注意:当前GEN的最新版主版本是0, 也就是 API 在未来可能会有较大的变更, 使用时务必注意版本变更问题</li><li>MySQL 8.0</li></ul><p>目标表有3个,分别是 <code>user</code>、<code>address</code>和 <code>hobby</code>，<code>user</code>与 <code>address</code>是一对多关系，如下所示:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>CREATE</span><span class=w> </span><span class=k>TABLE</span><span class=w> </span><span class=k>IF</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>EXISTS</span><span class=w> </span><span class=o>`</span><span class=k>user</span><span class=o>`</span><span class=w> </span><span class=p>(</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=w> </span><span class=k>COMMENT</span><span class=w> </span><span class=s1>&#39;ID&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>name</span><span class=o>`</span><span class=w> </span><span class=nb>varchar</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=w> </span><span class=nb>CHARACTER</span><span class=w> </span><span class=k>SET</span><span class=w> </span><span class=n>utf8mb4</span><span class=w> </span><span class=k>COLLATE</span><span class=w> </span><span class=n>utf8mb4_general_ci</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;&#39;</span><span class=w> </span><span class=k>COMMENT</span><span class=w> </span><span class=s1>&#39;用户名&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>age</span><span class=o>`</span><span class=w> </span><span class=n>tinyint</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;0&#39;</span><span class=w> </span><span class=k>COMMENT</span><span class=w> </span><span class=s1>&#39;年龄&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>balance</span><span class=o>`</span><span class=w> </span><span class=nb>decimal</span><span class=p>(</span><span class=mi>11</span><span class=p>,</span><span class=mi>2</span><span class=p>)</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;0.00&#39;</span><span class=w> </span><span class=k>COMMENT</span><span class=w> </span><span class=s1>&#39;余额&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>updated_at</span><span class=o>`</span><span class=w> </span><span class=n>datetime</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>COMMENT</span><span class=w> </span><span class=s1>&#39;更新时间&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>created_at</span><span class=o>`</span><span class=w> </span><span class=n>datetime</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>COMMENT</span><span class=w> </span><span class=s1>&#39;创建时间&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>deleted_at</span><span class=o>`</span><span class=w> </span><span class=n>datetime</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>COMMENT</span><span class=w> </span><span class=s1>&#39;删除时间&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>PRIMARY</span><span class=w> </span><span class=k>KEY</span><span class=w> </span><span class=p>(</span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>)</span><span class=w> </span><span class=n>ENGINE</span><span class=o>=</span><span class=n>InnoDB</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=o>=</span><span class=mi>4</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=n>CHARSET</span><span class=o>=</span><span class=n>utf8mb4</span><span class=w> </span><span class=k>COLLATE</span><span class=o>=</span><span class=n>utf8mb4_general_ci</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>CREATE</span><span class=w> </span><span class=k>TABLE</span><span class=w> </span><span class=k>IF</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>EXISTS</span><span class=w> </span><span class=o>`</span><span class=n>address</span><span class=o>`</span><span class=w> </span><span class=p>(</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>uid</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>province</span><span class=o>`</span><span class=w> </span><span class=nb>varchar</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=w> </span><span class=nb>CHARACTER</span><span class=w> </span><span class=k>SET</span><span class=w> </span><span class=n>utf8mb4</span><span class=w> </span><span class=k>COLLATE</span><span class=w> </span><span class=n>utf8mb4_general_ci</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>city</span><span class=o>`</span><span class=w> </span><span class=nb>varchar</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=w> </span><span class=k>COLLATE</span><span class=w> </span><span class=n>utf8mb4_general_ci</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>update_time</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>create_time</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>delete_time</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;0&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>PRIMARY</span><span class=w> </span><span class=k>KEY</span><span class=w> </span><span class=p>(</span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=p>)</span><span class=w> </span><span class=k>USING</span><span class=w> </span><span class=n>BTREE</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>KEY</span><span class=w> </span><span class=o>`</span><span class=n>uid</span><span class=o>`</span><span class=w> </span><span class=p>(</span><span class=o>`</span><span class=n>uid</span><span class=o>`</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>)</span><span class=w> </span><span class=n>ENGINE</span><span class=o>=</span><span class=n>InnoDB</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=o>=</span><span class=mi>5</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=n>CHARSET</span><span class=o>=</span><span class=n>utf8mb4</span><span class=w> </span><span class=k>COLLATE</span><span class=o>=</span><span class=n>utf8mb4_general_ci</span><span class=w> </span><span class=n>ROW_FORMAT</span><span class=o>=</span><span class=k>DYNAMIC</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>CREATE</span><span class=w> </span><span class=k>TABLE</span><span class=w> </span><span class=k>IF</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>EXISTS</span><span class=w> </span><span class=o>`</span><span class=n>hobby</span><span class=o>`</span><span class=w> </span><span class=p>(</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>name</span><span class=o>`</span><span class=w> </span><span class=nb>varchar</span><span class=p>(</span><span class=mi>20</span><span class=p>)</span><span class=w> </span><span class=nb>CHARACTER</span><span class=w> </span><span class=k>SET</span><span class=w> </span><span class=n>utf8mb4</span><span class=w> </span><span class=k>COLLATE</span><span class=w> </span><span class=n>utf8mb4_general_ci</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>updated_at</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>created_at</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>`</span><span class=n>deleted_at</span><span class=o>`</span><span class=w> </span><span class=nb>int</span><span class=w> </span><span class=n>unsigned</span><span class=w> </span><span class=k>NOT</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=s1>&#39;0&#39;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>PRIMARY</span><span class=w> </span><span class=k>KEY</span><span class=w> </span><span class=p>(</span><span class=o>`</span><span class=n>id</span><span class=o>`</span><span class=p>)</span><span class=w> </span><span class=k>USING</span><span class=w> </span><span class=n>BTREE</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>)</span><span class=w> </span><span class=n>ENGINE</span><span class=o>=</span><span class=n>InnoDB</span><span class=w> </span><span class=n>AUTO_INCREMENT</span><span class=o>=</span><span class=mi>4</span><span class=w> </span><span class=k>DEFAULT</span><span class=w> </span><span class=n>CHARSET</span><span class=o>=</span><span class=n>utf8mb4</span><span class=w> </span><span class=k>COLLATE</span><span class=o>=</span><span class=n>utf8mb4_general_ci</span><span class=w> </span><span class=n>ROW_FORMAT</span><span class=o>=</span><span class=k>DYNAMIC</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=配置-gen-并生成模型结构体>配置 GEN 并生成模型结构体</h2><p>创建并初始化项目,再引入 GEN 包</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>mkdir gormgendemo <span class=o>&amp;&amp;</span> <span class=nb>cd</span> gormgendemo
+</span></span><span class=line><span class=cl>go mod init
+</span></span><span class=line><span class=cl>go get -u gorm.io/gen@v0.3.16
+</span></span></code></pre></td></tr></table></div></div><p>继续创建用于生成模型文件的 <code>./cmd/generate/main.go</code>文件和用于执行 SQL 示例的 <code>./main.go</code>文件，目录如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>├── cmd
+</span></span><span class=line><span class=cl>│   └── generate
+</span></span><span class=line><span class=cl>│       └── main.go
+</span></span><span class=line><span class=cl>├── go.mod
+</span></span><span class=line><span class=cl>├── go.sum
+</span></span><span class=line><span class=cl>└── main.go
+</span></span></code></pre></td></tr></table></div></div><p><code>./cmd/generate/main.go</code>代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;strings&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gorm.io/driver/mysql&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gorm.io/gen&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gorm.io/gen/field&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gorm.io/gorm&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=nx>MySQLDSN</span> <span class=p>=</span> <span class=s>&#34;root:123456@(localhost:3306)/gormgendemo?charset=utf8mb4&amp;parseTime=True&amp;loc=Local&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 连接数据库
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>db</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>gorm</span><span class=p>.</span><span class=nf>Open</span><span class=p>(</span><span class=nx>mysql</span><span class=p>.</span><span class=nf>Open</span><span class=p>(</span><span class=nx>MySQLDSN</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>panic</span><span class=p>(</span><span class=nx>fmt</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;cannot establish db connection: %w&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 生成实例
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>g</span> <span class=o>:=</span> <span class=nx>gen</span><span class=p>.</span><span class=nf>NewGenerator</span><span class=p>(</span><span class=nx>gen</span><span class=p>.</span><span class=nx>Config</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 相对执行`go run`时的路径, 会自动创建目录
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>OutPath</span><span class=p>:</span> <span class=s>&#34;dal/query&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=c1>// WithDefaultQuery 生成默认查询结构体(作为全局变量使用), 即`Q`结构体和其字段(各表模型)
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>// WithoutContext 生成没有context调用限制的代码供查询
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>// WithQueryInterface 生成interface形式的查询代码(可导出), 如`Where()`方法返回的就是一个可导出的接口类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>Mode</span><span class=p>:</span> <span class=nx>gen</span><span class=p>.</span><span class=nx>WithDefaultQuery</span> <span class=p>|</span> <span class=nx>gen</span><span class=p>.</span><span class=nx>WithQueryInterface</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=c1>// 表字段可为 null 值时, 对应结体字段使用指针类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>FieldNullable</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span> <span class=c1>// generate pointer when field is nullable
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 表字段默认值与模型结构体字段零值不一致的字段, 在插入数据时需要赋值该字段值为零值的, 结构体字段须是指针类型才能成功, 即`FieldCoverable:true`配置下生成的结构体字段.
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>// 因为在插入时遇到字段为零值的会被GORM赋予默认值. 如字段`age`表默认值为10, 即使你显式设置为0最后也会被GORM设为10提交.
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>// 如果该字段没有上面提到的插入时赋零值的特殊需要, 则字段为非指针类型使用起来会比较方便.
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>FieldCoverable</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span> <span class=c1>// generate pointer when field has default value, to fix problem zero value cannot be assign: https://gorm.io/docs/create.html#Default-Values
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 模型结构体字段的数字类型的符号表示是否与表字段的一致, `false`指示都用有符号类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>FieldSignable</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span> <span class=c1>// detect integer field&#39;s unsigned type, adjust generated data type
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>// 生成 gorm 标签的字段索引属性
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>FieldWithIndexTag</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span> <span class=c1>// generate with gorm index tag
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>// 生成 gorm 标签的字段类型属性
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>FieldWithTypeTag</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span> <span class=c1>// generate with gorm column type tag
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 设置目标 db
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>g</span><span class=p>.</span><span class=nf>UseDB</span><span class=p>(</span><span class=nx>db</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 自定义字段的数据类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 统一数字类型为int64,兼容protobuf
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>dataMap</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kd>func</span><span class=p>(</span><span class=nx>detailType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>dataType</span> <span class=kt>string</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;tinyint&#34;</span><span class=p>:</span>   <span class=kd>func</span><span class=p>(</span><span class=nx>detailType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>dataType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=s>&#34;int64&#34;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;smallint&#34;</span><span class=p>:</span>  <span class=kd>func</span><span class=p>(</span><span class=nx>detailType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>dataType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=s>&#34;int64&#34;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;mediumint&#34;</span><span class=p>:</span> <span class=kd>func</span><span class=p>(</span><span class=nx>detailType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>dataType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=s>&#34;int64&#34;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;bigint&#34;</span><span class=p>:</span>    <span class=kd>func</span><span class=p>(</span><span class=nx>detailType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>dataType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=s>&#34;int64&#34;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;int&#34;</span><span class=p>:</span>       <span class=kd>func</span><span class=p>(</span><span class=nx>detailType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>dataType</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=s>&#34;int64&#34;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 要先于`ApplyBasic`执行
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>g</span><span class=p>.</span><span class=nf>WithDataTypeMap</span><span class=p>(</span><span class=nx>dataMap</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 自定义模型结体字段的标签
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 将特定字段名的 json 标签加上`string`属性,即 MarshalJSON 时该字段由数字类型转成字符串类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>jsonField</span> <span class=o>:=</span> <span class=nx>gen</span><span class=p>.</span><span class=nf>FieldJSONTagWithNS</span><span class=p>(</span><span class=kd>func</span><span class=p>(</span><span class=nx>columnName</span> <span class=kt>string</span><span class=p>)</span> <span class=p>(</span><span class=nx>tagContent</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>toStringField</span> <span class=o>:=</span> <span class=s>`balance, `</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>Contains</span><span class=p>(</span><span class=nx>toStringField</span><span class=p>,</span> <span class=nx>columnName</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=nx>columnName</span> <span class=o>+</span> <span class=s>&#34;,string&#34;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=nx>columnName</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 将非默认字段名的字段定义为自动时间戳和软删除字段;
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 自动时间戳默认字段名为:`updated_at`、`created_at, 表字段数据类型为: INT 或 DATETIME
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 软删除默认字段名为:`deleted_at`, 表字段数据类型为: DATETIME
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>autoUpdateTimeField</span> <span class=o>:=</span> <span class=nx>gen</span><span class=p>.</span><span class=nf>FieldGORMTag</span><span class=p>(</span><span class=s>&#34;update_time&#34;</span><span class=p>,</span> <span class=s>&#34;column:update_time;type:int unsigned;autoUpdateTime&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>autoCreateTimeField</span> <span class=o>:=</span> <span class=nx>gen</span><span class=p>.</span><span class=nf>FieldGORMTag</span><span class=p>(</span><span class=s>&#34;create_time&#34;</span><span class=p>,</span> <span class=s>&#34;column:create_time;type:int unsigned;autoCreateTime&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>softDeleteField</span> <span class=o>:=</span> <span class=nx>gen</span><span class=p>.</span><span class=nf>FieldType</span><span class=p>(</span><span class=s>&#34;delete_time&#34;</span><span class=p>,</span> <span class=s>&#34;soft_delete.DeletedAt&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 模型自定义选项组
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fieldOpts</span> <span class=o>:=</span> <span class=p>[]</span><span class=nx>gen</span><span class=p>.</span><span class=nx>ModelOpt</span><span class=p>{</span><span class=nx>jsonField</span><span class=p>,</span> <span class=nx>autoCreateTimeField</span><span class=p>,</span> <span class=nx>autoUpdateTimeField</span><span class=p>,</span> <span class=nx>softDeleteField</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建模型的结构体,生成文件在 model 目录; 先创建的结果会被后面创建的覆盖
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// 这里创建个别模型仅仅是为了拿到`*generate.QueryStructMeta`类型对象用于后面的模型关联操作中
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>Address</span> <span class=o>:=</span> <span class=nx>g</span><span class=p>.</span><span class=nf>GenerateModel</span><span class=p>(</span><span class=s>&#34;address&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建全部模型文件, 并覆盖前面创建的同名模型
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>allModel</span> <span class=o>:=</span> <span class=nx>g</span><span class=p>.</span><span class=nf>GenerateAllTable</span><span class=p>(</span><span class=nx>fieldOpts</span><span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建有关联关系的模型文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>User</span> <span class=o>:=</span> <span class=nx>g</span><span class=p>.</span><span class=nf>GenerateModel</span><span class=p>(</span><span class=s>&#34;user&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nb>append</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>			<span class=nx>fieldOpts</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=c1>// user 一对多 address 关联, 外键`uid`在 address 表中
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=nx>gen</span><span class=p>.</span><span class=nf>FieldRelate</span><span class=p>(</span><span class=nx>field</span><span class=p>.</span><span class=nx>HasMany</span><span class=p>,</span> <span class=s>&#34;Address&#34;</span><span class=p>,</span> <span class=nx>Address</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>field</span><span class=p>.</span><span class=nx>RelateConfig</span><span class=p>{</span><span class=nx>GORMTag</span><span class=p>:</span> <span class=s>&#34;foreignKey:UID&#34;</span><span class=p>}),</span>
+</span></span><span class=line><span class=cl>		<span class=p>)</span><span class=o>...</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Address</span> <span class=p>=</span> <span class=nx>g</span><span class=p>.</span><span class=nf>GenerateModel</span><span class=p>(</span><span class=s>&#34;address&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nb>append</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>			<span class=nx>fieldOpts</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>gen</span><span class=p>.</span><span class=nf>FieldRelate</span><span class=p>(</span><span class=nx>field</span><span class=p>.</span><span class=nx>BelongsTo</span><span class=p>,</span> <span class=s>&#34;User&#34;</span><span class=p>,</span> <span class=nx>User</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>field</span><span class=p>.</span><span class=nx>RelateConfig</span><span class=p>{</span><span class=nx>GORMTag</span><span class=p>:</span> <span class=s>&#34;foreignKey:UID&#34;</span><span class=p>}),</span>
+</span></span><span class=line><span class=cl>		<span class=p>)</span><span class=o>...</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建模型的方法,生成文件在 query 目录; 先创建结果不会被后创建的覆盖
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>g</span><span class=p>.</span><span class=nf>ApplyBasic</span><span class=p>(</span><span class=nx>User</span><span class=p>,</span> <span class=nx>Address</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>g</span><span class=p>.</span><span class=nf>ApplyBasic</span><span class=p>(</span><span class=nx>allModel</span><span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>g</span><span class=p>.</span><span class=nf>Execute</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>执行生成程序:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>go mod tidy
+</span></span><span class=line><span class=cl>go run ./cmd/generate/main.go
+</span></span></code></pre></td></tr></table></div></div><p>结果目录:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>├── cmd
+</span></span><span class=line><span class=cl>│   └── generate
+</span></span><span class=line><span class=cl>│       └── main.go
+</span></span><span class=line><span class=cl>├── dal
+</span></span><span class=line><span class=cl>│   ├── model
+</span></span><span class=line><span class=cl>│   │   ├── address.gen.go
+</span></span><span class=line><span class=cl>│   │   ├── hobby.gen.go
+</span></span><span class=line><span class=cl>│   │   └── user.gen.go
+</span></span><span class=line><span class=cl>│   └── query
+</span></span><span class=line><span class=cl>│       ├── address.gen.go
+</span></span><span class=line><span class=cl>│       ├── gen.go
+</span></span><span class=line><span class=cl>│       ├── hobby.gen.go
+</span></span><span class=line><span class=cl>│       └── user.gen.go
+</span></span><span class=line><span class=cl>├── go.mod
+</span></span><span class=line><span class=cl>├── go.sum
+</span></span><span class=line><span class=cl>└── main.go
+</span></span></code></pre></td></tr></table></div></div><p>生成的模型结构体:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// User mapped from table &lt;user&gt;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>ID</span>        <span class=kt>int64</span>          <span class=s>`gorm:&#34;column:id;type:int unsigned;primaryKey;autoIncrement:true&#34; json:&#34;id&#34;`</span>                    <span class=c1>// ID
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>Name</span>      <span class=kt>string</span>         <span class=s>`gorm:&#34;column:name;type:varchar(20);not null&#34; json:&#34;name&#34;`</span>                                      <span class=c1>// 用户名
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>Age</span>       <span class=kt>int64</span>          <span class=s>`gorm:&#34;column:age;type:tinyint unsigned;not null&#34; json:&#34;age&#34;`</span>                                   <span class=c1>// 年龄
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>Balance</span>   <span class=kt>float64</span>        <span class=s>`gorm:&#34;column:balance;type:decimal(11,2) unsigned;not null;default:0.00&#34; json:&#34;balance,string&#34;`</span> <span class=c1>// 余额
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>UpdatedAt</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Time</span>      <span class=s>`gorm:&#34;column:updated_at;type:datetime;not null&#34; json:&#34;updated_at&#34;`</span>                             <span class=c1>// 更新时间
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>CreatedAt</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Time</span>      <span class=s>`gorm:&#34;column:created_at;type:datetime;not null&#34; json:&#34;created_at&#34;`</span>                             <span class=c1>// 创建时间
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>DeletedAt</span> <span class=nx>gorm</span><span class=p>.</span><span class=nx>DeletedAt</span> <span class=s>`gorm:&#34;column:deleted_at;type:datetime&#34; json:&#34;deleted_at&#34;`</span>                                      <span class=c1>// 删除时间
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>Address</span>   <span class=p>[]</span><span class=nx>Address</span>      <span class=s>`gorm:&#34;foreignKey:UID&#34; json:&#34;address&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Address mapped from table &lt;address&gt;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>Address</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ID</span>         <span class=kt>int64</span>                 <span class=s>`gorm:&#34;column:id;type:int unsigned;primaryKey;autoIncrement:true&#34; json:&#34;id&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>UID</span>        <span class=kt>int64</span>                 <span class=s>`gorm:&#34;column:uid;type:int unsigned;not null&#34; json:&#34;uid&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Province</span>   <span class=kt>string</span>                <span class=s>`gorm:&#34;column:province;type:varchar(20);not null&#34; json:&#34;province&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>City</span>       <span class=kt>string</span>                <span class=s>`gorm:&#34;column:city;type:varchar(20);not null&#34; json:&#34;city&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>UpdateTime</span> <span class=kt>int64</span>                 <span class=s>`gorm:&#34;column:update_time;type:int unsigned;autoUpdateTime&#34; json:&#34;update_time&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>CreateTime</span> <span class=kt>int64</span>                 <span class=s>`gorm:&#34;column:create_time;type:int unsigned;autoCreateTime&#34; json:&#34;create_time&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>DeleteTime</span> <span class=nx>soft_delete</span><span class=p>.</span><span class=nx>DeletedAt</span> <span class=s>`gorm:&#34;column:delete_time;type:int unsigned;not null&#34; json:&#34;delete_time&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>User</span>       <span class=nx>User</span>                  <span class=s>`gorm:&#34;foreignKey:UID&#34; json:&#34;user&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Hobby mapped from table &lt;hobby&gt;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>Hobby</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>ID</span>        <span class=kt>int64</span>  <span class=s>`gorm:&#34;column:id;type:int unsigned;primaryKey;autoIncrement:true&#34; json:&#34;id&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Name</span>      <span class=kt>string</span> <span class=s>`gorm:&#34;column:name;type:varchar(20);not null&#34; json:&#34;name&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>UpdatedAt</span> <span class=kt>int64</span>  <span class=s>`gorm:&#34;column:updated_at;type:int unsigned;not null&#34; json:&#34;updated_at&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>CreatedAt</span> <span class=kt>int64</span>  <span class=s>`gorm:&#34;column:created_at;type:int unsigned;not null&#34; json:&#34;created_at&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>DeletedAt</span> <span class=kt>int64</span>  <span class=s>`gorm:&#34;column:deleted_at;type:int unsigned;not null&#34; json:&#34;deleted_at&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>上面3个模型都实现了更新、创建字段的自动时间戳功能，前面2个实现了软删除功能，表字段的整型类型都以 int64表示。</p><h2 id=使用-gen-进行数据库操作>使用 GEN 进行数据库操作</h2><p><code>./main.go</code>代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;context&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gormgendemo/dal/model&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gormgendemo/dal/query&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gorm.io/driver/mysql&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;gorm.io/gorm&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=nx>MySQLDSN</span> <span class=p>=</span> <span class=s>&#34;root:123456@(localhost:3306)/gormgendemo?charset=utf8mb4&amp;parseTime=True&amp;loc=Local&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 连接数据库
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>db</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>gorm</span><span class=p>.</span><span class=nf>Open</span><span class=p>(</span><span class=nx>mysql</span><span class=p>.</span><span class=nf>Open</span><span class=p>(</span><span class=nx>MySQLDSN</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>panic</span><span class=p>(</span><span class=nx>fmt</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;cannot establish db connection: %w&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>query</span><span class=p>.</span><span class=nf>SetDefault</span><span class=p>(</span><span class=nx>db</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>q</span> <span class=o>:=</span> <span class=nx>query</span><span class=p>.</span><span class=nx>Q</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ctx</span> <span class=o>:=</span> <span class=nx>context</span><span class=p>.</span><span class=nf>Background</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//qc := q.WithContext(ctx)
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 增
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>insert</span><span class=p>(</span><span class=nx>ctx</span><span class=p>,</span> <span class=nx>q</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 删
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>del</span><span class=p>(</span><span class=nx>ctx</span><span class=p>,</span> <span class=nx>q</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 改
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>update</span><span class=p>(</span><span class=nx>ctx</span><span class=p>,</span> <span class=nx>q</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 查
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>find</span><span class=p>(</span><span class=nx>ctx</span><span class=p>,</span> <span class=nx>q</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Done!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>insert</span><span class=p>(</span><span class=nx>ctx</span> <span class=nx>context</span><span class=p>.</span><span class=nx>Context</span><span class=p>,</span> <span class=nx>q</span> <span class=o>*</span><span class=nx>query</span><span class=p>.</span><span class=nx>Query</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>qc</span> <span class=o>:=</span> <span class=nx>q</span><span class=p>.</span><span class=nf>WithContext</span><span class=p>(</span><span class=nx>ctx</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 插入数据
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>users</span> <span class=o>:=</span> <span class=p>[]</span><span class=o>*</span><span class=nx>model</span><span class=p>.</span><span class=nx>User</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;张三&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Age</span><span class=p>:</span>  <span class=mi>30</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Address</span><span class=p>:</span> <span class=p>[]</span><span class=nx>model</span><span class=p>.</span><span class=nx>Address</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=p>{</span><span class=nx>Province</span><span class=p>:</span> <span class=s>&#34;广东&#34;</span><span class=p>,</span> <span class=nx>City</span><span class=p>:</span> <span class=s>&#34;广州&#34;</span><span class=p>},</span>
+</span></span><span class=line><span class=cl>				<span class=p>{</span><span class=nx>Province</span><span class=p>:</span> <span class=s>&#34;广东&#34;</span><span class=p>,</span> <span class=nx>City</span><span class=p>:</span> <span class=s>&#34;深圳&#34;</span><span class=p>},</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;李四&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Age</span><span class=p>:</span>  <span class=mi>40</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Address</span><span class=p>:</span> <span class=p>[]</span><span class=nx>model</span><span class=p>.</span><span class=nx>Address</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=p>{</span><span class=nx>Province</span><span class=p>:</span> <span class=s>&#34;广东&#34;</span><span class=p>,</span> <span class=nx>City</span><span class=p>:</span> <span class=s>&#34;广州&#34;</span><span class=p>},</span>
+</span></span><span class=line><span class=cl>				<span class=p>{</span><span class=nx>Province</span><span class=p>:</span> <span class=s>&#34;广东&#34;</span><span class=p>,</span> <span class=nx>City</span><span class=p>:</span> <span class=s>&#34;深圳&#34;</span><span class=p>},</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;王五&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Age</span><span class=p>:</span>  <span class=mi>50</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>hobby</span> <span class=o>:=</span> <span class=p>[]</span><span class=o>*</span><span class=nx>model</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;看电影&#34;</span><span class=p>},</span> <span class=p>{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;看书&#34;</span><span class=p>},</span> <span class=p>{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;跑步&#34;</span><span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>qc</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nf>Create</span><span class=p>(</span><span class=nx>users</span><span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>qc</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>.</span><span class=nf>Create</span><span class=p>(</span><span class=nx>hobby</span><span class=o>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>del</span><span class=p>(</span><span class=nx>ctx</span> <span class=nx>context</span><span class=p>.</span><span class=nx>Context</span><span class=p>,</span> <span class=nx>q</span> <span class=o>*</span><span class=nx>query</span><span class=p>.</span><span class=nx>Query</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>qc</span> <span class=o>:=</span> <span class=nx>q</span><span class=p>.</span><span class=nf>WithContext</span><span class=p>(</span><span class=nx>ctx</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>qc</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Name</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;张三&#34;</span><span class=p>)).</span><span class=nf>Delete</span><span class=p>()</span>       <span class=c1>// 软删
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>qc</span><span class=p>.</span><span class=nx>Address</span><span class=p>.</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>Address</span><span class=p>.</span><span class=nx>City</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;深圳&#34;</span><span class=p>)).</span><span class=nf>Delete</span><span class=p>()</span> <span class=c1>// 软删
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>qc</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>.</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>.</span><span class=nx>Name</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;看电影&#34;</span><span class=p>)).</span><span class=nf>Delete</span><span class=p>()</span>    <span class=c1>// 非软删
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>update</span><span class=p>(</span><span class=nx>ctx</span> <span class=nx>context</span><span class=p>.</span><span class=nx>Context</span><span class=p>,</span> <span class=nx>q</span> <span class=o>*</span><span class=nx>query</span><span class=p>.</span><span class=nx>Query</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>qc</span> <span class=o>:=</span> <span class=nx>q</span><span class=p>.</span><span class=nf>WithContext</span><span class=p>(</span><span class=nx>ctx</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>qc</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Name</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;李四&#34;</span><span class=p>)).</span><span class=nf>UpdateSimple</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Age</span><span class=p>.</span><span class=nf>Add</span><span class=p>(</span><span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>find</span><span class=p>(</span><span class=nx>ctx</span> <span class=nx>context</span><span class=p>.</span><span class=nx>Context</span><span class=p>,</span> <span class=nx>q</span> <span class=o>*</span><span class=nx>query</span><span class=p>.</span><span class=nx>Query</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>qc</span> <span class=o>:=</span> <span class=nx>q</span><span class=p>.</span><span class=nf>WithContext</span><span class=p>(</span><span class=nx>ctx</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// First、Take、Last 方法, 如果没有找到记录则返回错误 ErrRecordNotFound。
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=nx>_</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>qc</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nf>Preload</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Address</span><span class=p>).</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Name</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;张三&#34;</span><span class=p>)).</span><span class=nf>First</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%+v \n&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=c1>//record not found
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>user</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>qc</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nf>Preload</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Address</span><span class=p>).</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Name</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;李四&#34;</span><span class=p>)).</span><span class=nf>First</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%+v \n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>user</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=c1>//{ID:2 Name:李四 Age:41 Balance:0 UpdatedAt:2022-09-16 15:13:39 +0800 CST CreatedAt:2022-09-16 15:13:39 +0800 CST
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>//DeletedAt:{Time:0001-01-01 00:00:00 +0000 UTC Valid:false}
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>//Address:[{ID:3 UID:2rovince:广东 City:广州 UpdateTime:1663312418 CreateTime:1663312418 DeleteTime:0
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>//User:{ID:0 Name: Age:0 Balance:0 UpdatedAt:0001-01-01 00:00:00 +0000 UTC CreatedAt:0001-01-01 00:00:00 +0000 UTC
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>//CreatedAt:{Time:0001-01-01 00:00:00 +0000 UTC Valid:false} Address:[]}}]}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>addr</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>qc</span><span class=p>.</span><span class=nx>Address</span><span class=p>.</span><span class=nf>Preload</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>Address</span><span class=p>.</span><span class=nx>User</span><span class=p>).</span><span class=nf>Offset</span><span class=p>(</span><span class=mi>1</span><span class=p>).</span><span class=nf>First</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%+v \n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>addr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=c1>//{ID:3 UID:2 Province:广东 City:广州 UpdateTime:1663312418 CreateTime:1663312418 DeleteTime:0
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>//User:{ID:2 Name:李四 Age:41 Balance:0 UpdatedAt:2022-09-16 15:13:39 +0800 CST CreatedAt:2022-09-16 39 +0800 CST
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=c1>//DeletedAt:{Time:0001-01-01 00:00:00 +0000 UTC Valid:false} Address:[]}}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>_</span><span class=p>,</span> <span class=nx>err</span> <span class=p>=</span> <span class=nx>qc</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>.</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>.</span><span class=nx>Name</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;看电影&#34;</span><span class=p>)).</span><span class=nf>First</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%+v \n&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=c1>//record not found
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>hb</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>qc</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>.</span><span class=nf>Where</span><span class=p>(</span><span class=nx>q</span><span class=p>.</span><span class=nx>Hobby</span><span class=p>.</span><span class=nx>Name</span><span class=p>.</span><span class=nf>Eq</span><span class=p>(</span><span class=s>&#34;看书&#34;</span><span class=p>)).</span><span class=nf>First</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%+v \n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>hb</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=c1>//{ID:2 Name:看书 UpdatedAt:1663312418 CreatedAt:1663312418 DeletedAt:0}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>执行使用程序可以看到效果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>go run main.go
+</span></span></code></pre></td></tr></table></div></div><h2 id=结语>结语</h2><p>示例的相关代码已上传<a href=https://github.com/jeffid/gormgendemo target=_blank rel="noopener noreffer">github仓库</a>，有需要的可以自取。如果文章中有什么错漏或改善的地方也欢迎给我留言交流。</p><p>上面示例仅作抛砖引玉之用，更多使用方法还得参考官方文档和源码。</p><p>最后在这里对 GORM 和 GEN 的开发者们给我们带来了这么好用的工具表示感谢！</p><h2 id=参考>参考</h2><p><a href=https://github.com/go-gorm/gen/blob/master/README.ZH_CN.md target=_blank rel="noopener noreffer">GORM/GEN中文文档</a>
+<a href=https://www.modb.pro/db/156460 target=_blank rel="noopener noreffer">无恒实验室联合GORM推出安全好用的ORM框架-GEN</a></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-10-06&nbsp;<a class=git-hash href=https://github.com/dillonzq/LoveIt/commit/188b34574d86d9ed0387348d79685e7f4ccce13d target=_blank title="commit by Jeff(jeffid@qq.com) 188b34574d86d9ed0387348d79685e7f4ccce13d: 新增文章,新增GithubActions自动构建配置文件">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>188b345</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/111_gorm-gen/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/golang/>Golang</a>,&nbsp;<a href=/tags/gorm/>GORM</a>,&nbsp;<a href=/tags/gen/>GEN</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/ class=prev rel=prev title=Elasticsearch中文同义词><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Elasticsearch中文同义词</a>
+<a href=/112_glang-singleton/ class=next rel=next title="Golang 单例模式与sync.Once">Golang 单例模式与sync.Once<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>为创想赋能;</div><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2016 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Jeffid</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/ target=_blank>粤ICP备16090318号</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:10},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

@@ -1,870 +1,538 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>Elasticsearch中文同义词 - 万酷库</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="Elasticsearch中文同义词" />
-<meta property="og:description" content="Elasticsearch的标准版本及以上是支持设置同义词功能的, 其实也就是除了OSS(开源)版以外其它的都支持. 环境说明 Elasticsearch 7.6.x 与ES相匹配的" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/" /><meta property="og:image" content="https://waacoo.cc/img/logo.jpg"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-06-10T14:00:00+08:00" />
-<meta property="article:modified_time" content="2022-10-06T08:52:19+08:00" /><meta property="og:site_name" content="My cool site" />
-<meta property="og:see_also" content="https://waacoo.cc/105_es_goods_search/" /><meta property="og:see_also" content="https://waacoo.cc/104_es_base/" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://waacoo.cc/img/logo.jpg"/>
-
-<meta name="twitter:title" content="Elasticsearch中文同义词"/>
-<meta name="twitter:description" content="Elasticsearch的标准版本及以上是支持设置同义词功能的, 其实也就是除了OSS(开源)版以外其它的都支持. 环境说明 Elasticsearch 7.6.x 与ES相匹配的"/>
-<meta name="application-name" content="LoveIt">
-<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/" /><link rel="prev" href="https://waacoo.cc/105_es_goods_search/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Elasticsearch中文同义词",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https:\/\/waacoo.cc\/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D\/"
-        },"image": ["https:\/\/waacoo.cc\/img\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Elasticsearch","wordcount":  2230 ,
-        "url": "https:\/\/waacoo.cc\/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D\/","datePublished": "2020-06-10T14:00:00+08:00","dateModified": "2022-10-06T08:52:19+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
-            "@type": "Organization",
-            "name": "Jeffid","logo": "https:\/\/waacoo.cc\/img\/avatar.jpg"},"author": {
-                "@type": "Person",
-                "name": "Jeffid"
-            },"description": ""
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="万酷库">万酷库</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/jeffid" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
-                    <i class="fa fa-globe" aria-hidden="true"></i>                      
-                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/" selected>简体中文</option></select>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="万酷库">万酷库</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        取消
-                    </a>
-                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/jeffid" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
-                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
-                    <select class="language-select" onchange="location = this.value;"><option value="/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/" selected>简体中文</option></select>
-                </a></div>
-    </div>
-</header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">目录</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Elasticsearch中文同义词</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Jeffid</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%90%8E%E7%AB%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>后端</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-06-10">2020-06-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2230 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;<span id="/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/" class="leancloud_visitors" data-flag-title="Elasticsearch中文同义词">
-                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
-                    </span>&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>目录</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#环境说明">环境说明</a></li>
-    <li><a href="#操作">操作</a>
-      <ul>
-        <li><a href="#同义词文件方式">同义词文件方式</a>
-          <ul>
-            <li><a href="#设置同义词文件">设置同义词文件</a></li>
-            <li><a href="#创建索引">创建索引</a></li>
-            <li><a href="#查看分析结果">查看分析结果</a>
-              <ul>
-                <li><a href="#第一行分词的效果">第一行分词的效果</a></li>
-                <li><a href="#第二行分词的效果">第二行分词的效果</a></li>
-              </ul>
-            </li>
-            <li><a href="#变更同义词并更新索引">变更同义词并更新索引</a>
-              <ul>
-                <li><a href="#变更同义词后的第二行分词的效果">变更同义词后的第二行分词的效果</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="#内嵌方式">内嵌方式</a>
-          <ul>
-            <li><a href="#创建索引-1">创建索引</a></li>
-            <li><a href="#查看分析结果-1">查看分析结果</a></li>
-            <li><a href="#变更同义词并更新索引-1">变更同义词并更新索引</a></li>
-          </ul>
-        </li>
-        <li><a href="#查询实践">查询实践</a></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a></li>
-    <li><a href="#参考资料">参考资料</a></li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><p>Elasticsearch的标准版本及以上是支持设置同义词功能的, 其实也就是除了OSS(开源)版以外其它的都支持.</p>
-<h2 id="环境说明">环境说明</h2>
-<ul>
-<li>
-<p>Elasticsearch 7.6.x</p>
-</li>
-<li>
-<p>与ES相匹配的IK分词插件</p>
-</li>
-<li>
-<p>示例中会分别使用到shell命令和Kibana, 以<code>$</code>开头的代表是shell命令, 否则表示Kibana的console命令</p>
-</li>
-</ul>
-<h2 id="操作">操作</h2>
-<blockquote>
-<p>同义词可以使用 <code>synonym</code> 参数来内嵌指定，或者必须 存在于集群每一个节点上的同义词文件中。 同义词文件路径由 <code>synonyms_path</code> 参数指定，应绝对或相对于 Elasticsearch <code>config</code> 目录。</p>
-</blockquote>
-<p>下面以同义词的两种设置方式来介绍:</p>
-<h3 id="同义词文件方式">同义词文件方式</h3>
-<h4 id="设置同义词文件">设置同义词文件</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 进入Elasticsearch目录执行,生成文件</span>
-</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;&#34;iPhone,苹果手机 =&gt; iPhone,苹果手机&#34;,
-</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;2233,22娘,33娘 =&gt; bilibili,B站&#34;&#39;</span> &gt; config/analysis/synonyms.txt
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="创建索引">创建索引</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">PUT /goods2
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;settings&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;analysis&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;filter&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;my_synonym_filter&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;type&#34;</span>: <span class="s2">&#34;synonym&#34;</span>,
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;updateable&#34;</span>: true,
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;synonyms_path&#34;</span>: <span class="s2">&#34;analysis/synonyms.txt&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>,
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;analyzer&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;my_synonyms_analyzer&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;tokenizer&#34;</span>: <span class="s2">&#34;ik_smart&#34;</span>,
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;filter&#34;</span>: <span class="o">[</span>
-</span></span><span class="line"><span class="cl">            <span class="s2">&#34;my_synonym_filter&#34;</span>
-</span></span><span class="line"><span class="cl">          <span class="o">]</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;mappings&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;properties&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;title&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;type&#34;</span>: <span class="s2">&#34;text&#34;</span>,
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;analyzer&#34;</span>: <span class="s2">&#34;ik_smart&#34;</span>,
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;search_analyzer&#34;</span>: <span class="s2">&#34;my_synonyms_analyzer&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p><code>my_synonym_filter</code>是自定义的<code>词汇过滤器</code>, <code>my_synonyms_analyzer</code>是自定义的分析器, 可以看出后者是包含并引用了前者的.</p>
-<p>在本索引中自定义的词汇过虑器和分析器也只能在当前索引中使用.</p>
-<p><code>updateable</code>指示<strong>能否动态更新</strong>, 必须为<code>true</code>才能动态更新同义词</p>
-<p><code>synonyms_path</code>指示同义词文件的位置</p>
-<p><code>analysis.analyzer.tokenizer</code>指示在这个分析器里用<code>ik_smart</code>的分词器, 在这个索引中的分析链是<code>原始文本 =&gt; 分词器 =&gt; 词汇过滤器</code>, 即原始文本先经过分词的结果再用来给<code>词汇过滤器</code>处理(在这个索引的作用是同义词).</p>
-<p><code>mappings.properties.title.search_analyzer</code>指示<code>title</code>字段在查询时使用<code>my_synonyms_analyzer</code>分析器, 同理<code>mappings.properties.title.analyzer</code>指示其在索引时使用的分析器.</p>
-</blockquote>
-<h4 id="查看分析结果">查看分析结果</h4>
-<h5 id="第一行分词的效果">第一行分词的效果</h5>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 字母大小写没有影响</span>
-</span></span><span class="line"><span class="cl">GET goods2/_analyze
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;analyzer&#34;</span>: <span class="s2">&#34;my_synonyms_analyzer&#34;</span>,
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;text&#34;</span>: <span class="s2">&#34;iphone&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">GET goods2/_analyze
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;analyzer&#34;</span>: <span class="s2">&#34;my_synonyms_analyzer&#34;</span>,
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;text&#34;</span>: <span class="s2">&#34;苹果手机&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>上面两条语句的结果是一样的</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tokens&#34;</span> <span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;iphone&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;ENGLISH&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;苹果&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;手机&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h5 id="第二行分词的效果">第二行分词的效果</h5>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GET goods2/_analyze
-</span></span><span class="line"><span class="cl">{
-</span></span><span class="line"><span class="cl">  &#34;analyzer&#34;: &#34;my_synonyms_analyzer&#34;,
-</span></span><span class="line"><span class="cl">  &#34;text&#34;: &#34;2233&#34;
-</span></span><span class="line"><span class="cl">}
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">GET goods2/_analyze
-</span></span><span class="line"><span class="cl">{
-</span></span><span class="line"><span class="cl">  &#34;analyzer&#34;: &#34;my_synonyms_analyzer&#34;,
-</span></span><span class="line"><span class="cl">  &#34;text&#34;: &#34;22娘&#34;
-</span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>结果</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tokens&#34;</span> <span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;bilibili&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;站&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="变更同义词并更新索引">变更同义词并更新索引</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 进入Elasticsearch目录执行,生成文件</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># `iPhone,苹果手机 =&gt; iPhone,苹果手机`与`iPhone,苹果手机`的效果是一样的</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 内容中的双引号`&#34;`和行末的逗号`,`不是必须的(没有的话须要有换行符), 这里只是为了和和内嵌式的保持一致才这么写的</span>
-</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;&#34;iPhone,苹果手机&#34;,
-</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;2233,22娘,33娘 =&gt; bilibili,B站,二次元&#34;&#39;</span> &gt; config/analysis/synonyms.txt
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 使新的同义词生效</span>
-</span></span><span class="line"><span class="cl">POST /goods2/_reload_search_analyzers
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h5 id="变更同义词后的第二行分词的效果">变更同义词后的第二行分词的效果</h5>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GET goods2/_analyze
-</span></span><span class="line"><span class="cl">{
-</span></span><span class="line"><span class="cl">  &#34;analyzer&#34;: &#34;my_synonyms_analyzer&#34;,
-</span></span><span class="line"><span class="cl">  &#34;text&#34;: &#34;2233&#34;
-</span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>结果</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tokens&#34;</span> <span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;bilibili&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;二次元&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;token&#34;</span> <span class="p">:</span> <span class="s2">&#34;站&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;start_offset&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;end_offset&#34;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span> <span class="p">:</span> <span class="s2">&#34;SYNONYM&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;position&#34;</span> <span class="p">:</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="内嵌方式">内嵌方式</h3>
-<h4 id="创建索引-1">创建索引</h4>
-<p>同义词配置就在<code>synonyms</code>属性里</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">PUT /goods3
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;settings&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;analysis&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;filter&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;my_synonym_filter&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;type&#34;</span>: <span class="s2">&#34;synonym&#34;</span>,
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;synonyms&#34;</span>: <span class="o">[</span>
-</span></span><span class="line"><span class="cl">            <span class="s2">&#34;iPhone,苹果手机 =&gt; iPhone,苹果手机&#34;</span>,
-</span></span><span class="line"><span class="cl">            <span class="s2">&#34;2233,22娘,33娘 =&gt; bilibili,B站&#34;</span>
-</span></span><span class="line"><span class="cl">          <span class="o">]</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>,
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;analyzer&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;my_synonyms_analyzer&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;tokenizer&#34;</span>: <span class="s2">&#34;ik_smart&#34;</span>,
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;filter&#34;</span>: <span class="o">[</span>
-</span></span><span class="line"><span class="cl">            <span class="s2">&#34;my_synonym_filter&#34;</span>
-</span></span><span class="line"><span class="cl">          <span class="o">]</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;mappings&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;properties&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;title&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;type&#34;</span>: <span class="s2">&#34;text&#34;</span>,
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;analyzer&#34;</span>: <span class="s2">&#34;ik_smart&#34;</span>,
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;search_analyzer&#34;</span>: <span class="s2">&#34;my_synonyms_analyzer&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="查看分析结果-1">查看分析结果</h4>
-<p>下面的结果跟同义词文件方式的是一样的</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">GET goods3/_analyze
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;analyzer&#34;</span>: <span class="s2">&#34;my_synonyms_analyzer&#34;</span>,
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;text&#34;</span>: <span class="s2">&#34;iphone&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">GET goods3/_analyze
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;analyzer&#34;</span>: <span class="s2">&#34;my_synonyms_analyzer&#34;</span>,
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;text&#34;</span>: <span class="s2">&#34;2233&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="变更同义词并更新索引-1">变更同义词并更新索引</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 须要先关闭索引才能变更设置</span>
-</span></span><span class="line"><span class="cl">POST /goods3/_close
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">PUT /goods3/_settings/
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;analysis&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;filter&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;my_synonym_filter&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;type&#34;</span>: <span class="s2">&#34;synonym&#34;</span>,
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;synonyms&#34;</span>: <span class="o">[</span>
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;iPhone,苹果手机&#34;</span>,
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;2233,22娘,33娘 =&gt; bilibili,B站,二次元&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="o">]</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 重新开启索引</span>
-</span></span><span class="line"><span class="cl">POST /goods3/_open
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="查询实践">查询实践</h3>
-<p>以索引<code>goods2</code>为例</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 插入一条数据</span>
-</span></span><span class="line"><span class="cl">POST /goods2/_doc/1
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;title&#34;</span>:<span class="s2">&#34;bilibili是个好平台&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 通过`2233`关键词查找</span>
-</span></span><span class="line"><span class="cl">GET /goods2/_search
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;match&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;title&#34;</span>: <span class="s2">&#34;2233&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>结果</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;took&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;timed_out&#34;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;_shards&#34;</span> <span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;total&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;successful&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;skipped&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;failed&#34;</span> <span class="p">:</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">  <span class="p">},</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;hits&#34;</span> <span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;total&#34;</span> <span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;value&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;relation&#34;</span> <span class="p">:</span> <span class="s2">&#34;eq&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;max_score&#34;</span> <span class="p">:</span> <span class="mf">0.2876821</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;hits&#34;</span> <span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">      <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;_index&#34;</span> <span class="p">:</span> <span class="s2">&#34;goods2&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;_type&#34;</span> <span class="p">:</span> <span class="s2">&#34;_doc&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;_id&#34;</span> <span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;_score&#34;</span> <span class="p">:</span> <span class="mf">0.2876821</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;_source&#34;</span> <span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;title&#34;</span> <span class="p">:</span> <span class="s2">&#34;bilibili是个好平台&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">]</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="总结">总结</h2>
-<ul>
-<li>
-<p>在Elasticsearch中设置同义词有<code>内嵌式</code>和<code>同义词文件式</code>两种</p>
-</li>
-<li>
-<p><code>同义词文件式</code>可以在不关闭索引的情况下动态更新同义词</p>
-</li>
-</ul>
-<h2 id="参考资料">参考资料</h2>
-<ul>
-<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.6/indices-reload-analyzers.html#indices-reload-analyzers-api-example" target="_blank" rel="noopener noreffer ">Elasticsearch Reference 7.6 重载分析器API </a></li>
-<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html" target="_blank" rel="noopener noreffer ">Elasticsearch: 权威指南</a></li>
-<li><a href="https://www.elastic.co/cn/subscriptions" target="_blank" rel="noopener noreffer ">Elastic Stack 各版本的区别</a></li>
-</ul>
-</div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>更新于 2022-10-06&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/83466a772464292c1d3507ff48024960df30316d" target="_blank" title="commit by Jeff(jeffid@qq.com) 83466a772464292c1d3507ff48024960df30316d: 新增分类和标签">
-                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>83466a7</a></span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/index.md" target="_blank">阅读原始文档</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/elasticsearch/">Elasticsearch</a></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/105_es_goods_search/" class="prev" rel="prev" title="电商商品信息Elasticsearch索引结构与查询示例"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>电商商品信息Elasticsearch索引结构与查询示例</a></div>
-</div>
-<div id="comments"><div id="valine" class="comment"></div><noscript>
-                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
-            </noscript></div></article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">为创想赋能;</div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2016 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Jeffid</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
-                    <span class="icp"><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备16090318号</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
-</html>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Elasticsearch中文同义词 - 万酷库</title><meta name=Description content="关于 LoveIt 主题"><meta property="og:title" content="Elasticsearch中文同义词"><meta property="og:description" content="Elasticsearch的标准版本及以上是支持设置同义词功能的, 其实也就是除了OSS(开源)版以外其它的都支持. 环境说明 Elasticsearch 7.6.x 与ES相匹配的"><meta property="og:type" content="article"><meta property="og:url" content="https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/"><meta property="og:image" content="https://waacoo.cc/img/logo.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-06-10T14:00:00+08:00"><meta property="article:modified_time" content="2020-06-10T14:00:00+08:00"><meta property="og:site_name" content="My cool site"><meta property="og:see_also" content="https://waacoo.cc/105_es_goods_search/"><meta property="og:see_also" content="https://waacoo.cc/104_es_base/"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://waacoo.cc/img/logo.jpg"><meta name=twitter:title content="Elasticsearch中文同义词"><meta name=twitter:description content="Elasticsearch的标准版本及以上是支持设置同义词功能的, 其实也就是除了OSS(开源)版以外其它的都支持. 环境说明 Elasticsearch 7.6.x 与ES相匹配的"><meta name=application-name content="LoveIt"><meta name=apple-mobile-web-app-title content="LoveIt"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/><link rel=prev href=https://waacoo.cc/105_es_goods_search/><link rel=next href=https://waacoo.cc/111_gorm-gen/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Elasticsearch中文同义词","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/waacoo.cc\/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D\/"},"image":["https:\/\/waacoo.cc\/img\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Elasticsearch","wordcount":2230,"url":"https:\/\/waacoo.cc\/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D\/","datePublished":"2020-06-10T14:00:00+08:00","dateModified":"2020-06-10T14:00:00+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Jeffid","logo":"https:\/\/waacoo.cc\/img\/avatar.jpg"},"author":{"@type":"Person","name":"Jeffid"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=万酷库>万酷库</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/jeffid title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=万酷库>万酷库</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/jeffid title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Elasticsearch中文同义词</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Jeffid</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/%E5%90%8E%E7%AB%AF/><i class="far fa-folder fa-fw" aria-hidden=true></i>后端</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2020-06-10>2020-06-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2230 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;<span id=/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/ class=leancloud_visitors data-flag-title=Elasticsearch中文同义词>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#环境说明>环境说明</a></li><li><a href=#操作>操作</a><ul><li><a href=#同义词文件方式>同义词文件方式</a><ul><li><a href=#设置同义词文件>设置同义词文件</a></li><li><a href=#创建索引>创建索引</a></li><li><a href=#查看分析结果>查看分析结果</a><ul><li><a href=#第一行分词的效果>第一行分词的效果</a></li><li><a href=#第二行分词的效果>第二行分词的效果</a></li></ul></li><li><a href=#变更同义词并更新索引>变更同义词并更新索引</a><ul><li><a href=#变更同义词后的第二行分词的效果>变更同义词后的第二行分词的效果</a></li></ul></li></ul></li><li><a href=#内嵌方式>内嵌方式</a><ul><li><a href=#创建索引-1>创建索引</a></li><li><a href=#查看分析结果-1>查看分析结果</a></li><li><a href=#变更同义词并更新索引-1>变更同义词并更新索引</a></li></ul></li><li><a href=#查询实践>查询实践</a></li></ul></li><li><a href=#总结>总结</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div></div><div class=content id=content><p>Elasticsearch的标准版本及以上是支持设置同义词功能的, 其实也就是除了OSS(开源)版以外其它的都支持.</p><h2 id=环境说明>环境说明</h2><ul><li><p>Elasticsearch 7.6.x</p></li><li><p>与ES相匹配的IK分词插件</p></li><li><p>示例中会分别使用到shell命令和Kibana, 以<code>$</code>开头的代表是shell命令, 否则表示Kibana的console命令</p></li></ul><h2 id=操作>操作</h2><blockquote><p>同义词可以使用 <code>synonym</code> 参数来内嵌指定，或者必须 存在于集群每一个节点上的同义词文件中。 同义词文件路径由 <code>synonyms_path</code> 参数指定，应绝对或相对于 Elasticsearch <code>config</code> 目录。</p></blockquote><p>下面以同义词的两种设置方式来介绍:</p><h3 id=同义词文件方式>同义词文件方式</h3><h4 id=设置同义词文件>设置同义词文件</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 进入Elasticsearch目录执行,生成文件</span>
+</span></span><span class=line><span class=cl>$ <span class=nb>echo</span> <span class=s1>&#39;&#34;iPhone,苹果手机 =&gt; iPhone,苹果手机&#34;,
+</span></span></span><span class=line><span class=cl><span class=s1>    &#34;2233,22娘,33娘 =&gt; bilibili,B站&#34;&#39;</span> &gt; config/analysis/synonyms.txt
+</span></span></code></pre></td></tr></table></div></div><h4 id=创建索引>创建索引</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>PUT /goods2
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;settings&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;analysis&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;filter&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;my_synonym_filter&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;type&#34;</span>: <span class=s2>&#34;synonym&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;updateable&#34;</span>: true,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;synonyms_path&#34;</span>: <span class=s2>&#34;analysis/synonyms.txt&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;analyzer&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;my_synonyms_analyzer&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;tokenizer&#34;</span>: <span class=s2>&#34;ik_smart&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;filter&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;my_synonym_filter&#34;</span>
+</span></span><span class=line><span class=cl>          <span class=o>]</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>}</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;mappings&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;title&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;type&#34;</span>: <span class=s2>&#34;text&#34;</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;analyzer&#34;</span>: <span class=s2>&#34;ik_smart&#34;</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;search_analyzer&#34;</span>: <span class=s2>&#34;my_synonyms_analyzer&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p><code>my_synonym_filter</code>是自定义的<code>词汇过滤器</code>, <code>my_synonyms_analyzer</code>是自定义的分析器, 可以看出后者是包含并引用了前者的.</p><p>在本索引中自定义的词汇过虑器和分析器也只能在当前索引中使用.</p><p><code>updateable</code>指示<strong>能否动态更新</strong>, 必须为<code>true</code>才能动态更新同义词</p><p><code>synonyms_path</code>指示同义词文件的位置</p><p><code>analysis.analyzer.tokenizer</code>指示在这个分析器里用<code>ik_smart</code>的分词器, 在这个索引中的分析链是<code>原始文本 => 分词器 => 词汇过滤器</code>, 即原始文本先经过分词的结果再用来给<code>词汇过滤器</code>处理(在这个索引的作用是同义词).</p><p><code>mappings.properties.title.search_analyzer</code>指示<code>title</code>字段在查询时使用<code>my_synonyms_analyzer</code>分析器, 同理<code>mappings.properties.title.analyzer</code>指示其在索引时使用的分析器.</p></blockquote><h4 id=查看分析结果>查看分析结果</h4><h5 id=第一行分词的效果>第一行分词的效果</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 字母大小写没有影响</span>
+</span></span><span class=line><span class=cl>GET goods2/_analyze
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;analyzer&#34;</span>: <span class=s2>&#34;my_synonyms_analyzer&#34;</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;text&#34;</span>: <span class=s2>&#34;iphone&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>GET goods2/_analyze
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;analyzer&#34;</span>: <span class=s2>&#34;my_synonyms_analyzer&#34;</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;text&#34;</span>: <span class=s2>&#34;苹果手机&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>上面两条语句的结果是一样的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;tokens&#34;</span> <span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;iphone&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;ENGLISH&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;苹果&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;手机&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=第二行分词的效果>第二行分词的效果</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>GET goods2/_analyze
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  &#34;analyzer&#34;: &#34;my_synonyms_analyzer&#34;,
+</span></span><span class=line><span class=cl>  &#34;text&#34;: &#34;2233&#34;
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>GET goods2/_analyze
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  &#34;analyzer&#34;: &#34;my_synonyms_analyzer&#34;,
+</span></span><span class=line><span class=cl>  &#34;text&#34;: &#34;22娘&#34;
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>结果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;tokens&#34;</span> <span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;bilibili&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;b&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;站&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=变更同义词并更新索引>变更同义词并更新索引</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 进入Elasticsearch目录执行,生成文件</span>
+</span></span><span class=line><span class=cl><span class=c1># `iPhone,苹果手机 =&gt; iPhone,苹果手机`与`iPhone,苹果手机`的效果是一样的</span>
+</span></span><span class=line><span class=cl><span class=c1># 内容中的双引号`&#34;`和行末的逗号`,`不是必须的(没有的话须要有换行符), 这里只是为了和和内嵌式的保持一致才这么写的</span>
+</span></span><span class=line><span class=cl>$ <span class=nb>echo</span> <span class=s1>&#39;&#34;iPhone,苹果手机&#34;,
+</span></span></span><span class=line><span class=cl><span class=s1>    &#34;2233,22娘,33娘 =&gt; bilibili,B站,二次元&#34;&#39;</span> &gt; config/analysis/synonyms.txt
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 使新的同义词生效</span>
+</span></span><span class=line><span class=cl>POST /goods2/_reload_search_analyzers
+</span></span></code></pre></td></tr></table></div></div><h5 id=变更同义词后的第二行分词的效果>变更同义词后的第二行分词的效果</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>GET goods2/_analyze
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  &#34;analyzer&#34;: &#34;my_synonyms_analyzer&#34;,
+</span></span><span class=line><span class=cl>  &#34;text&#34;: &#34;2233&#34;
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>结果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;tokens&#34;</span> <span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;bilibili&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;b&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;二次元&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;token&#34;</span> <span class=p>:</span> <span class=s2>&#34;站&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;start_offset&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;end_offset&#34;</span> <span class=p>:</span> <span class=mi>4</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;type&#34;</span> <span class=p>:</span> <span class=s2>&#34;SYNONYM&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;position&#34;</span> <span class=p>:</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=内嵌方式>内嵌方式</h3><h4 id=创建索引-1>创建索引</h4><p>同义词配置就在<code>synonyms</code>属性里</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>PUT /goods3
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;settings&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;analysis&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;filter&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;my_synonym_filter&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;type&#34;</span>: <span class=s2>&#34;synonym&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;synonyms&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;iPhone,苹果手机 =&gt; iPhone,苹果手机&#34;</span>,
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;2233,22娘,33娘 =&gt; bilibili,B站&#34;</span>
+</span></span><span class=line><span class=cl>          <span class=o>]</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>,
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;analyzer&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;my_synonyms_analyzer&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;tokenizer&#34;</span>: <span class=s2>&#34;ik_smart&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;filter&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;my_synonym_filter&#34;</span>
+</span></span><span class=line><span class=cl>          <span class=o>]</span>
+</span></span><span class=line><span class=cl>        <span class=o>}</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>}</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;mappings&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;properties&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;title&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;type&#34;</span>: <span class=s2>&#34;text&#34;</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;analyzer&#34;</span>: <span class=s2>&#34;ik_smart&#34;</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;search_analyzer&#34;</span>: <span class=s2>&#34;my_synonyms_analyzer&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=查看分析结果-1>查看分析结果</h4><p>下面的结果跟同义词文件方式的是一样的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>GET goods3/_analyze
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;analyzer&#34;</span>: <span class=s2>&#34;my_synonyms_analyzer&#34;</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;text&#34;</span>: <span class=s2>&#34;iphone&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>GET goods3/_analyze
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;analyzer&#34;</span>: <span class=s2>&#34;my_synonyms_analyzer&#34;</span>,
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;text&#34;</span>: <span class=s2>&#34;2233&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=变更同义词并更新索引-1>变更同义词并更新索引</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 须要先关闭索引才能变更设置</span>
+</span></span><span class=line><span class=cl>POST /goods3/_close
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PUT /goods3/_settings/
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;analysis&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;filter&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;my_synonym_filter&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;type&#34;</span>: <span class=s2>&#34;synonym&#34;</span>,
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;synonyms&#34;</span>: <span class=o>[</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;iPhone,苹果手机&#34;</span>,
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;2233,22娘,33娘 =&gt; bilibili,B站,二次元&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>]</span>
+</span></span><span class=line><span class=cl>      <span class=o>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 重新开启索引</span>
+</span></span><span class=line><span class=cl>POST /goods3/_open
+</span></span></code></pre></td></tr></table></div></div><h3 id=查询实践>查询实践</h3><p>以索引<code>goods2</code>为例</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 插入一条数据</span>
+</span></span><span class=line><span class=cl>POST /goods2/_doc/1
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;title&#34;</span>:<span class=s2>&#34;bilibili是个好平台&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 通过`2233`关键词查找</span>
+</span></span><span class=line><span class=cl>GET /goods2/_search
+</span></span><span class=line><span class=cl><span class=o>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;query&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;match&#34;</span>: <span class=o>{</span>
+</span></span><span class=line><span class=cl>      <span class=s2>&#34;title&#34;</span>: <span class=s2>&#34;2233&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>结果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;took&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;timed_out&#34;</span> <span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;_shards&#34;</span> <span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;total&#34;</span> <span class=p>:</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;successful&#34;</span> <span class=p>:</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;skipped&#34;</span> <span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;failed&#34;</span> <span class=p>:</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;hits&#34;</span> <span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;total&#34;</span> <span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;value&#34;</span> <span class=p>:</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;relation&#34;</span> <span class=p>:</span> <span class=s2>&#34;eq&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;max_score&#34;</span> <span class=p>:</span> <span class=mf>0.2876821</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;hits&#34;</span> <span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>      <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;_index&#34;</span> <span class=p>:</span> <span class=s2>&#34;goods2&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;_type&#34;</span> <span class=p>:</span> <span class=s2>&#34;_doc&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;_id&#34;</span> <span class=p>:</span> <span class=s2>&#34;1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;_score&#34;</span> <span class=p>:</span> <span class=mf>0.2876821</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nt>&#34;_source&#34;</span> <span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nt>&#34;title&#34;</span> <span class=p>:</span> <span class=s2>&#34;bilibili是个好平台&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=总结>总结</h2><ul><li><p>在Elasticsearch中设置同义词有<code>内嵌式</code>和<code>同义词文件式</code>两种</p></li><li><p><code>同义词文件式</code>可以在不关闭索引的情况下动态更新同义词</p></li></ul><h2 id=参考资料>参考资料</h2><ul><li><a href=https://www.elastic.co/guide/en/elasticsearch/reference/7.6/indices-reload-analyzers.html#indices-reload-analyzers-api-example target=_blank rel="noopener noreffer">Elasticsearch Reference 7.6 重载分析器API</a></li><li><a href=https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html target=_blank rel="noopener noreffer">Elasticsearch: 权威指南</a></li><li><a href=https://www.elastic.co/cn/subscriptions target=_blank rel="noopener noreffer">Elastic Stack 各版本的区别</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2020-06-10</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/elasticsearch/>Elasticsearch</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/105_es_goods_search/ class=prev rel=prev title=电商商品信息Elasticsearch索引结构与查询示例><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>电商商品信息Elasticsearch索引结构与查询示例</a>
+<a href=/111_gorm-gen/ class=next rel=next title="GEN 自动生成 GORM 模型结构体文件及使用示例">GEN 自动生成 GORM 模型结构体文件及使用示例<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>为创想赋能;</div><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2016 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Jeffid</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/ target=_blank>粤ICP备16090318号</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:10},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
