@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>所有文章 - 万酷库</title>
+        <link>https://waacoo.cc/posts/</link>
+        <description>所有文章 | 万酷库</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 10 Jun 2020 14:00:00 &#43;0800</lastBuildDate><atom:link href="https://waacoo.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Elasticsearch中文同义词</title>
+    <link>https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/</link>
+    <pubDate>Wed, 10 Jun 2020 14:00:00 &#43;0800</pubDate>
+    <author>Jeffid</author>
+    <guid>https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/</guid>
+    <description><![CDATA[Elasticsearch的标准版本及以上是支持设置同义词功能的, 其实也就是除了OSS(开源)版以外其它的都支持. 环境说明 Elasticsearch 7.6.x 与ES相匹配的]]></description>
+</item>
+<item>
+    <title>电商商品信息Elasticsearch索引结构与查询示例</title>
+    <link>https://waacoo.cc/105_es_goods_search/</link>
+    <pubDate>Wed, 15 Apr 2020 23:39:00 &#43;0800</pubDate>
+    <author>Jeffid</author>
+    <guid>https://waacoo.cc/105_es_goods_search/</guid>
+    <description><![CDATA[说明 本文是学习Learnku的 电商课程 Elasticsearch(下面将称之为:ES)部分的学习笔记,主要介绍常见的电商商品数据如何存入ES]]></description>
+</item>
+<item>
+    <title>Elasticsearch DSL的PHP写法示例</title>
+    <link>https://waacoo.cc/104_es_base/</link>
+    <pubDate>Thu, 02 Apr 2020 18:11:20 &#43;0800</pubDate>
+    <author>Jeffid</author>
+    <guid>https://waacoo.cc/104_es_base/</guid>
+    <description><![CDATA[操作环境 下面的程序和运行环境都是使用Laradock部署的 Elasticsearch 7.6.1 Kibana 7.6.1 PHP 7.2 elasticsearch/elasticsearch ~7.6.0 示例 导入数据 所有的DSL语句都在Kibana的Dev Tools工具]]></description>
+</item>
+</channel>
+</rss>
