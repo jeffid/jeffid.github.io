@@ -7,22 +7,23 @@
                         hreflang="zh-cn"
                         href="https://waacoo.cc/categories/"
                         /><xhtml:link
-                        rel="alternate"
-                        hreflang="fr"
-                        href="https://waacoo.cc/fr/categories/"
-                        /><xhtml:link
                     rel="alternate"
                     hreflang="en"
                     href="https://waacoo.cc/en/categories/"
+                    /></url><url>
+            <loc>https://waacoo.cc/en/series/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+                        rel="alternate"
+                        hreflang="zh-cn"
+                        href="https://waacoo.cc/series/"
+                        /><xhtml:link
+                    rel="alternate"
+                    hreflang="en"
+                    href="https://waacoo.cc/en/series/"
                     /></url><url>
             <loc>https://waacoo.cc/en/tags/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
                         href="https://waacoo.cc/tags/"
-                        /><xhtml:link
-                        rel="alternate"
-                        hreflang="fr"
-                        href="https://waacoo.cc/fr/tags/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
@@ -32,10 +33,6 @@
                         rel="alternate"
                         hreflang="zh-cn"
                         href="https://waacoo.cc/"
-                        /><xhtml:link
-                        rel="alternate"
-                        hreflang="fr"
-                        href="https://waacoo.cc/fr/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"

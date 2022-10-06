@@ -2,46 +2,39 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://waacoo.cc/106_es_%E5%90%8C%E4%B9%89%E8%AF%8D/</loc><lastmod>2021-10-23T17:34:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
-            <loc>https://waacoo.cc/posts/</loc><lastmod>2021-10-23T17:34:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
-            <loc>https://waacoo.cc/</loc><lastmod>2021-10-23T17:34:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link
-                        rel="alternate"
-                        hreflang="en"
-                        href="https://waacoo.cc/en/"
-                        /><xhtml:link
-                        rel="alternate"
-                        hreflang="fr"
-                        href="https://waacoo.cc/fr/"
-                        /><xhtml:link
-                    rel="alternate"
-                    hreflang="zh-cn"
-                    href="https://waacoo.cc/"
-                    /></url><url>
-            <loc>https://waacoo.cc/105_es_goods_search/</loc><lastmod>2021-10-23T17:34:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
-            <loc>https://waacoo.cc/104_es_base/</loc><lastmod>2021-10-23T17:34:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>https://waacoo.cc/categories/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://waacoo.cc/en/categories/"
                         /><xhtml:link
-                        rel="alternate"
-                        hreflang="fr"
-                        href="https://waacoo.cc/fr/categories/"
-                        /><xhtml:link
                     rel="alternate"
                     hreflang="zh-cn"
                     href="https://waacoo.cc/categories/"
+                    /></url><url>
+            <loc>https://waacoo.cc/series/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+                        rel="alternate"
+                        hreflang="en"
+                        href="https://waacoo.cc/en/series/"
+                        /><xhtml:link
+                    rel="alternate"
+                    hreflang="zh-cn"
+                    href="https://waacoo.cc/series/"
                     /></url><url>
             <loc>https://waacoo.cc/tags/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://waacoo.cc/en/tags/"
                         /><xhtml:link
-                        rel="alternate"
-                        hreflang="fr"
-                        href="https://waacoo.cc/fr/tags/"
-                        /><xhtml:link
                     rel="alternate"
                     hreflang="zh-cn"
                     href="https://waacoo.cc/tags/"
+                    /></url><url>
+            <loc>https://waacoo.cc/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+                        rel="alternate"
+                        hreflang="en"
+                        href="https://waacoo.cc/en/"
+                        /><xhtml:link
+                    rel="alternate"
+                    hreflang="zh-cn"
+                    href="https://waacoo.cc/"
                     /></url></urlset>

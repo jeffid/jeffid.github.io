@@ -3,6 +3,9 @@
 title: "电商商品信息Elasticsearch索引结构与查询示例"
 date: 2020-04-15T23:39:00+08:00
 draft: true
+tags: ["Elasticsearch", "PHP"]
+series: ["ELK"]
+categories: ["后端"]
 ---
 
 

@@ -3,6 +3,9 @@
 title: "Elasticsearch DSL的PHP写法示例"
 date: 2020-04-02T18:11:20+08:00
 draft: true
+tags: ["Elasticsearch", "Kibana", "PHP"]
+series: ["ELK"]
+categories: ["后端"]
 ---
 
 
